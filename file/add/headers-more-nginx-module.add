@@ -1,0 +1,9 @@
+#/bin/bash
+if [ -e headers-more-nginx-module/ ];then
+        cd headers-more-nginx-module
+        git pull
+        cd .. 
+else
+        git clone --depth=1 https://github.com/openresty/headers-more-nginx-module.git
+fi
+ADDCONFIG "--add-module=./headers-more-nginx-module"

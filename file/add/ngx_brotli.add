@@ -1,0 +1,10 @@
+#/bin/bash
+if [ -e ngx_brotli/ ];then
+        cd ./ngx_brotli
+        #git pull &&git submodule update --init --depth=1
+        cd ..
+else
+    git clone --depth=1 https://github.com/eustas/ngx_brotli
+    #cd ngx_brotli && git submodule update --init --depth=1 && cd ../
+fi
+ADDCONFIG "--add-module=./ngx_brotli"
