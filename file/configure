@@ -3,19 +3,26 @@
 buildpath=`pwd`
 readonly buildpath
 echo $buildpath
-read -s -n1 -p "按任意键继续 ... "
+#read -s -n1 -p "按任意键继续 ... "
 ADDCONFIG(){
     local config=$1
     MAKE_ADD_CONFIG="${MAKE_ADD_CONFIG} ${config}"
 }
 #加载添加模块的初始化脚本
+#缓存模块文件，避免开发时候多次拉取模块
+mkdir ~/gitfile
+cd ~/gitfile
 for addmodular in $(find /file/add/ -name "*.add") ;do
     echo 当前加载扩展：${addmodular}
     #read -s -n1 -p "按任意键继续 ... "
     source ${addmodular} 
-    #初始化模块后需要回到nginx的源码根目录
-    cd ${buildpath}
+    cd ~/gitfile
 done
+#复制添加的模块文件到指定目录
+cp -R ~/gitfile/* ${buildpath}
+#初始化模块后需要回到nginx的源码根目录
+cd ${buildpath}
+
 ./configured ${BASE_CONFIGURE_ARGS} \
     --with-cc-opt="${WITH_CC_OPT}" \
     --with-ld-opt="${WITH_LD_OPT}" \

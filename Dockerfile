@@ -1,7 +1,7 @@
-FROM centos
+FROM centos:7
 
 ADD  ./file /file
 
-RUN bash /file/run.sh
+RUN bash -x /file/run.sh
 
 #CMD [ "bash ./file/run.sh" ]

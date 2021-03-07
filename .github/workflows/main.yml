@@ -1,0 +1,26 @@
+name: Build lineageOS Kernel
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: Init Repo
+        run: |
+          bash -x ./ci.sh
+          pwd
+      - name: upload release
+        uses: ncipollo/release-action@v1.7.3
+        with:
+          allowUpdates: true
+          tag: "test"
+          body: ${{ github.event.release.body }}
+          prerelease: "true"
+          artifacts: "x86_64/*.*"
+          token: ${{ secrets.GITHUB_TOKEN }}

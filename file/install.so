@@ -1,5 +1,6 @@
 #!/bin/bash
 #系统检查
+set -ex
 (cat /etc/*-release |grep centos |grep 7) || (echo "仅支持centos 7 ！请检测系统版本。"&& exit 1 )
 #启用nginx官方的repo
 cat << 'EOF' > /etc/yum.repos.d/nginx.repo
@@ -10,15 +11,15 @@ gpgcheck=0
 enabled=1
 EOF
 #新版本git
-curl https://setup.ius.io/ | bash||(echo "无法获取新版本git" && exit 1)
+#curl https://setup.ius.io/ | bash||(echo "无法获取新版本git" && exit 1)
 #nginx编译依赖
 yum install -y \
     git2u \
     gcc \
     openssl-devel \
     pcre-devel \
-    make
-yum install -y \
-    rpm-build
+    make \
+    rpm-build \
+    git
 #清理
 yum clean all

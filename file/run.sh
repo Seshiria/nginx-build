@@ -1,5 +1,5 @@
 #!/bin/bash
-if [ -x /file/install.so ];then
+if [ -f /file/install.so ];then
     printf 镜像开始初始化
     source /file/install.so
     mv /file/install.so /file/install
@@ -10,8 +10,11 @@ cd ~/rpmbuild/SOURCES/
 rm -rf ~/rpmbuild/SOURCES/*
 #获取nginx源码
 NGINX_VERSION=$(yum list nginx |grep nginx |awk -F ':' '{print $2}'|awk -F '-' '{print $1}')
-cp /file/nginx-${NGINX_VERSION}-1.el7.ngx.src.rpm ./
-#curl -O http://nginx.org/packages/centos/7/SRPMS/nginx-${NGINX_VERSION}-1.el7.ngx.src.rpm
+if [ -f /file/nginx-${NGINX_VERSION}-1.el7.ngx.src.rpm ];then
+    cp /file/nginx-${NGINX_VERSION}-1.el7.ngx.src.rpm ./
+else
+    curl -O http://nginx.org/packages/centos/7/SRPMS/nginx-${NGINX_VERSION}-1.el7.ngx.src.rpm
+fi
 rpm2cpio nginx-${NGINX_VERSION}-1.el7.ngx.src.rpm |cpio -dvi
 #hook nginx.spec 文件
 #hook %setup宏
