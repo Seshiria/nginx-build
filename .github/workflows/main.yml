@@ -1,4 +1,4 @@
-name: Build lineageOS Kernel
+name: nginx builder
 on:
   workflow_dispatch:
   push:
