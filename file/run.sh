@@ -10,12 +10,12 @@ cd ~/rpmbuild/SOURCES/
 rm -rf ~/rpmbuild/SOURCES/*
 #获取nginx源码
 NGINX_VERSION=$(yum list nginx |grep nginx |awk -F ':' '{print $2}'|awk -F ' ' '{print $1}')
-if [ -f /file/nginx-${NGINX_VERSION}.ngx.src.rpm ];then
-    cp /file/nginx-${NGINX_VERSION}.ngx.src.rpm ./
+if [ -f /file/nginx-${NGINX_VERSION}.src.rpm ];then
+    cp /file/nginx-${NGINX_VERSION}.src.rpm ./
 else
-    curl -O http://nginx.org/packages/centos/7/SRPMS/nginx-${NGINX_VERSION}.ngx.src.rpm
+    curl -O http://nginx.org/packages/centos/7/SRPMS/nginx-${NGINX_VERSION}.src.rpm
 fi
-rpm2cpio nginx-${NGINX_VERSION}.ngx.src.rpm |cpio -dvi
+rpm2cpio nginx-${NGINX_VERSION}.src.rpm |cpio -dvi
 #hook nginx.spec 文件
 #hook %setup宏
 #sed -i '/cp %{SOURCE2} ./a\. /file/hook.sh' nginx.spec
