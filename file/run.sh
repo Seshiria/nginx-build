@@ -9,7 +9,7 @@ mkdir -p ~/rpmbuild/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS}
 cd ~/rpmbuild/SOURCES/
 rm -rf ~/rpmbuild/SOURCES/*
 #获取nginx源码
-NGINX_VERSION=$(yum list nginx |grep nginx |awk -F ':' '{print $2}'|awk -F '' '{print $1}')
+NGINX_VERSION=$(yum list nginx |grep nginx |awk -F ':' '{print $2}'|awk -F ' ' '{print $1}')
 if [ -f /file/nginx-${NGINX_VERSION}.ngx.src.rpm ];then
     cp /file/nginx-${NGINX_VERSION}.ngx.src.rpm ./
 else
