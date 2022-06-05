@@ -4,7 +4,7 @@ if [ -e ngx_brotli/ ];then
         git pull &&git submodule update --init --depth=1
         cd ..
 else
-    git clone --depth=1 https://github.com/eustas/ngx_brotli.git --recurse-submodules
+    git clone --depth=1 https://github.com/google/ngx_brotli.git --recurse-submodules
     #cd ngx_brotli && git submodule update --init --depth=1 && cd ../
 fi
 ADDCONFIG "--add-module=./ngx_brotli"
