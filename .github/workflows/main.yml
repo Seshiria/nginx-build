@@ -8,19 +8,20 @@ jobs:
   build:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4.1.7
         with:
           submodules: true
       - name: Init Repo
         run: |
           bash -x ./ci.sh
           pwd
+          ls -lh
       - name: upload release
-        uses: ncipollo/release-action@v1.7.3
+        uses: ncipollo/release-action@v1.14.0
         with:
           allowUpdates: true
           tag: "ubuntu"
           body: ${{ github.event.release.body }}
           prerelease: "true"
-          artifacts: "x86_64/*.*"
+          artifacts: "*.deb"
           token: ${{ secrets.GITHUB_TOKEN }}
