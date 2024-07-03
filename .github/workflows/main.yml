@@ -23,5 +23,5 @@ jobs:
           tag: "release"
           body: ${{ github.event.release.body }}
           prerelease: "true"
-          artifacts: "*.deb"
+          artifacts: "release/*.deb"
           token: ${{ secrets.GITHUB_TOKEN }}
