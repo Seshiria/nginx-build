@@ -6,4 +6,4 @@ if [ -e headers-more-nginx-module/ ];then
 else
         git clone --depth=1 https://github.com/openresty/headers-more-nginx-module.git
 fi
-ADDCONFIG "--add-module=./headers-more-nginx-module"
+ADDCONFIG "--add-module=\$(CURDIR)\/debian\/modules\/headers-more-nginx-module"

@@ -1,25 +1,29 @@
 #!/bin/bash
 #系统检查
 set -ex
-(cat /etc/*-release |grep centos |grep 7) || (echo "仅支持centos 7 ！请检测系统版本。"&& exit 1 )
-#启用nginx官方的repo
-cat << 'EOF' > /etc/yum.repos.d/nginx.repo
-[nginx]
-name=nginx repo
-baseurl=http://nginx.org/packages/centos/$releasever/$basearch/
-gpgcheck=0
-enabled=1
-EOF
-#新版本git
-#curl https://setup.ius.io/ | bash||(echo "无法获取新版本git" && exit 1)
-#nginx编译依赖
-yum install -y \
-    git2u \
-    gcc \
-    openssl-devel \
-    pcre-devel \
+(cat /etc/*-release |grep ubuntu) || (echo "仅支持ubuntu ！请检测系统版本。"&& exit 1 )
+apt update
+#nginx 依赖
+#https://nginx.org/en/linux_packages.html#Ubuntu
+apt install curl gnupg2 ca-certificates lsb-release ubuntu-keyring -y
+curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor \
+    | tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
+(gpg --dry-run --quiet --no-keyring --import --import-options import-show /usr/share/keyrings/nginx-archive-keyring.gpg |grep -q "573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62") || (echo "nginx库签名密钥验证失败" && exit 1)
+#配置为stable
+echo "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] \
+http://nginx.org/packages/ubuntu `lsb_release -cs` nginx" \
+    | tee /etc/apt/sources.list.d/nginx.list
+echo "deb-src [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] \
+http://nginx.org/packages/ubuntu `lsb_release -cs` nginx" \
+    | tee /etc/apt/sources.list.d/nginx-src.list
+echo -e "Package: *\nPin: origin nginx.org\nPin: release o=nginx\nPin-Priority: 900\n" \
+    | tee /etc/apt/preferences.d/99nginx
+#编译依赖
+apt install -y \
     make \
-    rpm-build \
-    git
-#清理
-yum clean all
+    git \
+    debhelper \
+    quilt \
+    libssl-dev \
+    libpcre2-dev \
+    zlib1g-dev

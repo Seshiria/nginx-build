@@ -1,4 +1,4 @@
-FROM centos:7
+FROM ubuntu:22.04
 
 ADD  ./file /file
 
